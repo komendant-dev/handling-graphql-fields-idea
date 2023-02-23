@@ -1,3 +1,7 @@
+package services.graphql
+
+import model.ReportTab
+
 sealed trait FieldType
 case object Money extends FieldType
 case object PriceRange extends FieldType
@@ -11,17 +15,6 @@ case class Field(fieldKey: String, graphQlQueryField: Option[GraphQlQueryField] 
 case class CustomField(fieldKey: String, queryField: GraphQlQueryField) extends GroupField
 case class TypedField(fieldKey: String, fieldType: FieldType) extends GroupField
 case class FragmentField(fieldKey: String, interfacedObjectNames: Seq[String]) extends GroupField
-
-class QueryFieldCreator {
-  def create(field: GroupField): GraphQlQueryField = {
-    field match {
-      case Field(fieldKey, graphQlQueryField) => ???
-      case TypedField(fieldKey, fieldType) => ???
-      case CustomField(fieldKey, queryField) => ???
-      case FragmentField(fieldKey, objectNames) => ???
-    }
-  }
-}
 
 case class Group(groupKey: String, parentGroupKey: String, fields: Map[String, GroupField])
 
@@ -68,6 +61,18 @@ object OrdersGroups extends Groups {
 
 // HERE WILL BE OUR CODE THAT WILL KNOW HOT TO BUILD CORRECT LIST WITH GraphQlQueryField
 object NewQueryFieldsBuilder {
+
+  class QueryFieldCreator {
+    def create(field: GroupField): GraphQlQueryField = {
+      field match {
+        case Field(fieldKey, graphQlQueryField) => ???
+        case TypedField(fieldKey, fieldType) => ???
+        case CustomField(fieldKey, queryField) => ???
+        case FragmentField(fieldKey, objectNames) => ???
+      }
+    }
+  }
+  
   def build(groups: Groups, selectedFields: Seq[model.TabField]): Seq[GraphQlQueryField] = ???
 }
 
